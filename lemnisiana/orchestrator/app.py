@@ -247,3 +247,31 @@ def ready(max_age_s: int = 5):
 @app.get("/version")
 def version():
     return {"version": app.version}
+
+
+# --- ΣEA/Ethics state (runtime overrides for tests) ---
+ETHICS_STATE = {'enforce': False, 'vdot': 0.0}
+
+from typing import Optional
+from fastapi.responses import JSONResponse
+
+@app.post("/ethics/force")
+def ethics_force(reset: bool = False, vdot: Optional[float] = None, enforce: Optional[bool] = None):
+    """
+    Runtime override (somente para testes):
+      - reset=true  -> limpa overrides
+      - vdot=...    -> fixa derivada de Lyapunov
+      - enforce=... -> liga/desliga enforcement padrão do gate
+    """
+    if reset:
+        ETHICS_STATE.update({'enforce': False, 'vdot': 0.0})
+    if vdot is not None:
+        ETHICS_STATE['vdot'] = float(vdot)
+    if enforce is not None:
+        ETHICS_STATE['enforce'] = bool(enforce)
+    return {'ok': True, 'state': ETHICS_STATE}
+
+@app.get("/ethics/check")
+def ethics_check():
+    allowed = ETHICS_STATE.get('vdot', 0.0) <= 0.0
+    return {'ok': True, 'state': ETHICS_STATE, 'pca': {'allowed': allowed}}
