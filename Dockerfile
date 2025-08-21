@@ -3,6 +3,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY lemnisiana ./lemnisiana
+RUN python -m compileall -q lemnisiana
 COPY configs ./configs
 ENV LEM_CONFIG=/app/configs/default.yaml
 EXPOSE 8000

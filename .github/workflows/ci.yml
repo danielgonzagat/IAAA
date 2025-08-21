@@ -20,6 +20,25 @@ jobs:
           uvicorn lemnisiana.orchestrator.app:app --host 127.0.0.1 --port 8000 &
           echo $! > uvicorn.pid
           sleep 2
+      - name: Ethics proofs (Z3)
+        run: python ci/ethics_proofs.py
+
+      - name: Policies sanity
+        run: |
+          python - <<'PY'
+          import yaml, sys, pathlib
+          p = pathlib.Path("configs/ethics.yaml")
+          if not p.exists():
+              print("configs/ethics.yaml missing (ok if merged into default)", file=sys.stderr)
+              sys.exit(0)
+          d = yaml.safe_load(p.read_text())
+          eth = d.get("ethics", {})
+          assert eth.get("tau_E", 0) >= 0.90
+          assert eth.get("tau_AI", 0) >= 0.95
+          assert eth.get("ece_truth_max", 1) <= 0.05
+          print("Policies OK")
+          PY
+
       - name: Run tests
         env:
           PYTHONPATH: ${{ github.workspace }}

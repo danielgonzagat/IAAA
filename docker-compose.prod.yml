@@ -1,0 +1,11 @@
+services:
+  orchestrator:
+    image: ghcr.io/danielgonzagat/iaaa-orchestrator:latest
+    container_name: lemnisiana-orchestrator
+    environment:
+      - LEM_CONFIG=/app/configs/default.yaml
+    volumes:
+      - ./configs:/app/configs:ro
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
