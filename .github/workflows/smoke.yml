@@ -1,0 +1,17 @@
+name: Smoke Staging
+on:
+  workflow_dispatch:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Start orchestrator
+        run: |
+          docker compose up -d orchestrator
+          ./scripts/wait-http.sh http://localhost:8000/health 60 0.25
+      - name: Smoke
+        run: ./scripts/lemnisiana_smoke.sh
+      - name: Logs (on failure)
+        if: failure()
+        run: docker logs lemnisiana-orchestrator || true
