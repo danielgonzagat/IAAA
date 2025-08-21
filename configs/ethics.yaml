@@ -1,0 +1,10 @@
+ethics:
+  enforce: false           # audit-only por padrão
+  tau_E: 0.95
+  tau_AI: 0.99
+  g_min: 0.90
+  ece_truth_max: 0.01
+  c_min: 0.10
+  rho_max: 1.05
+  lex_order: [HUMAN, EARTH, MACHINE]
+  prefer_act_if_zero_risk: true
