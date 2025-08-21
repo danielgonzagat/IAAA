@@ -1,0 +1,9 @@
+apiVersion: 1
+providers:
+  - name: 'lemnisiana'
+    orgId: 1
+    type: file
+    updateIntervalSeconds: 10
+    options:
+      path: /etc/grafana/provisioning/dashboards
+      foldersFromFilesStructure: false

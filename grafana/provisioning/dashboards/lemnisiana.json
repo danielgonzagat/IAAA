@@ -1,0 +1,19 @@
+{
+  "title": "Lemnisiana – Guard-Rails",
+  "editable": true,
+  "schemaVersion": 39,
+  "version": 1,
+  "panels": [
+    { "type":"timeseries","title":"Vdot (≤ 0)","gridPos":{"x":0,"y":0,"w":8,"h":8},
+      "targets":[{"expr":"lemnisiana_vdot","datasource":{"type":"prometheus","uid":"prometheus"}}]},
+    { "type":"timeseries","title":"OCI (≥ 0.6)","gridPos":{"x":8,"y":0,"w":8,"h":8},
+      "targets":[{"expr":"lemnisiana_oci","datasource":{"type":"prometheus","uid":"prometheus"}}]},
+    { "type":"timeseries","title":"ECE (≤ 0.05)","gridPos":{"x":16,"y":0,"w":8,"h":8},
+      "targets":[{"expr":"lemnisiana_ece","datasource":{"type":"prometheus","uid":"prometheus"}}]},
+    { "type":"timeseries","title":"Latency p95 (ms)","gridPos":{"x":0,"y":8,"w":12,"h":8},
+      "targets":[{"expr":"lemnisiana_latency_p95_ms","datasource":{"type":"prometheus","uid":"prometheus"}}]},
+    { "type":"timeseries","title":"Cost (USD/h)","gridPos":{"x":12,"y":8,"w":12,"h":8},
+      "targets":[{"expr":"lemnisiana_cost_usd_per_hour","datasource":{"type":"prometheus","uid":"prometheus"}}]}
+  ],
+  "time": {"from":"now-1h","to":"now"}
+}

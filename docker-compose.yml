@@ -1,0 +1,28 @@
+services:
+  orchestrator:
+    build: .
+    container_name: lemnisiana-orchestrator
+    volumes:
+      - ./configs:/app/configs:ro
+    ports: ["8000:8000"]
+    environment: ["LEM_CONFIG=/app/configs/default.yaml"]
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: lemnisiana-prometheus
+    volumes:
+      - ./lemnisiana/ops/observability/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports: ["9090:9090"]
+    restart: unless-stopped
+    depends_on: [orchestrator]
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: lemnisiana-grafana
+    ports: ["3000:3000"]
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    restart: unless-stopped
+    depends_on: [prometheus]

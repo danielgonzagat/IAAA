@@ -1,0 +1,18 @@
+orchestrator:
+  max_workers: 4
+  heartbeat_interval: "10s"
+
+guards:
+  lyapunov:
+    vdot_max: 0.0
+  autopoiesis:
+    oci_min: 0.6
+  uncertainty:
+    band:
+      - 0.3
+      - 0.7
+
+budgets:
+  gpu_mem_gb: 24
+  tokens_per_min: 120000
+  usd_per_hour: 10
