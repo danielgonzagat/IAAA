@@ -1,19 +1,19 @@
 .PHONY: build up down test smoke logs
 
 build:
-\tdocker compose build orchestrator
+	docker compose build orchestrator
 
 up:
-\tdocker compose up -d
+	docker compose up -d
 
 down:
-\tdocker compose down
+	docker compose down
 
 test:
-\tPYTHONPATH=$(PWD) python3 -m pytest -q
+	PYTHONPATH=$$PWD python3 -m pytest -q
 
 smoke:
-\t./scripts/lemnisiana_smoke.sh
+	./scripts/lemnisiana_smoke.sh
 
 logs:
-\tdocker logs -f lemnisiana-orchestrator
+	docker logs -f lemnisiana-orchestrator
